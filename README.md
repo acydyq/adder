@@ -1,130 +1,84 @@
-# Keep Awake Utility
+@echo off
+setlocal ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 
-A Python-based utility to prevent your PC from sleeping or locking by simulating activity. Offers both a GUI interface with system tray support and a cross-platform command-line version.
+REM === GET CURRENT FOLDER NAME ===
+for %%F in ("%CD%") do set REPO_NAME=%%~nxF
 
----
+REM === CONFIGURATION ===
+REM GitHub username will be auto-detected from gh auth
+set REMOTE_URL=https://github.com/placeholder/%REPO_NAME%.git
 
-## Features
+REM === Get timestamp for commit message ===
+for /f "tokens=1-2 delims= " %%a in ('wmic os get localdatetime ^| find "."') do (
+    set DATETIME=%%a
+)
+set COMMIT_DATE=!DATETIME:~0,4!-!DATETIME:~4,2!-!DATETIME:~6,2!
+set COMMIT_TIME=!DATETIME:~8,2!:!DATETIME:~10,2!:!DATETIME:~12,2!
+set COMMIT_MSG=Auto commit - !COMMIT_DATE! !COMMIT_TIME!
 
-- Simulates mouse and keyboard activity to prevent sleep
-- Auto-shutdown timer (1, 2, 5, or 10 hours)
-- System tray integration (GUI mode)
-- Tray icon switches dynamically (awake/sleep)
-- Real-time tooltip shows timer countdown and status
-- Command-line interface with automation support
-- Launcher batch file and shortcut generator script
-- Cross-platform console version (Windows/Linux/macOS)
-- Auto-start CLI and max timer modes
-- Full test suite to validate behavior
+echo.
+echo ======= UNIVERSAL GITHUB PUSH SCRIPT =======
+echo Project Folder: %REPO_NAME%
+echo Commit Message: %COMMIT_MSG%
+echo ===========================================
 
----
+REM -- Check for Git
+where git >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: Git is not installed.
+    pause
+    exit /b 1
+)
 
-## Requirements
+REM -- Check for GitHub CLI
+where gh >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: GitHub CLI not found.
+    pause
+    exit /b 1
+)
 
-- Python 3.6+
-- `pyautogui`, `psutil`, `pillow`, `pystray`
-- Windows recommended for full GUI support
+REM -- Check GH auth
+gh auth status >nul 2>&1
+if errorlevel 1 (
+    echo Not authenticated. Logging in...
+    gh auth login
+)
 
-Install dependencies:
-```bash
-pip install pyautogui psutil pillow pystray
-```
+REM -- Detect GitHub username
+for /f "tokens=2 delims=: " %%u in ('gh auth status') do (
+    if not defined GITHUB_USER set GITHUB_USER=%%u
+)
+set REMOTE_URL=https://github.com/%GITHUB_USER%/%REPO_NAME%.git
 
----
+REM -- Check if repo exists
+gh repo view %GITHUB_USER%/%REPO_NAME% >nul 2>&1
+if errorlevel 1 (
+    echo 🆕 Creating GitHub repo: %REPO_NAME%
+    gh repo create %REPO_NAME% --public --confirm
+) else (
+    echo ✅ Repo already exists on GitHub.
+)
 
-## Usage
+REM -- Init repo if needed
+if not exist ".git" (
+    echo 🧱 Initializing Git repo...
+    git init
+    git branch -M main
+)
 
-### GUI Version
-```bash
-python main.py --auto-start --timer=2
-```
+REM -- Add remote if not set
+git remote get-url origin >nul 2>&1
+if errorlevel 1 (
+    git remote add origin %REMOTE_URL%
+)
 
-### Console Version
-```bash
-python console_keep_awake.py --auto-start --timer=5 --non-interactive
-```
+REM -- Commit and push
+git add .
+git commit -m "%COMMIT_MSG%" >nul 2>&1
+git push -u origin main
 
-### Help Flags
-- `--help` or `-h`: Show usage info
-- `--auto-start`: Begin simulating activity immediately
-- `--timer=N`: Shutdown in N hours
-- `--max-timer`: Use 10-hour timer
-- `--non-interactive`: Skip CLI prompt
-
----
-
-## System Tray Behavior (GUI)
-
-The GUI runs silently in the background:
-
-- `awake_icon.png`: tray icon when active
-- `sleep_icon.png`: tray icon when inactive
-- `generated-icon.png`: fallback if others are missing
-- Tooltip displays current status and remaining time
-- Icons update every 5 seconds
-
----
-
-## Batch Launcher
-
-Run:
-```bat
-start_keep_awake.bat
-```
-
-Choose from:
-1. GUI Version
-2. Console Version
-3. Background Mode
-4. Exit
-
----
-
-## Shortcut Creation (Windows)
-
-Create a `.lnk` with tray icon:
-```powershell
-powershell -ExecutionPolicy Bypass -File create_shortcut.ps1
-```
-
-Creates:
-- `KeepAwake.exe.lnk`
-- Uses `awake_icon.png` or `generated-icon.png`
-
----
-
-## Testing
-
-Run:
-```bash
-python test_keep_awake.py
-```
-
-Verifies:
-- Icons and scripts exist
-- Console and GUI launch correctly
-- CLI flags function properly
-- PowerShell and batch files execute
-
----
-
-## Files Overview
-
-| File | Description |
-|------|-------------|
-| `main.py` | GUI mode with system tray |
-| `console_keep_awake.py` | Terminal-based control |
-| `start_keep_awake.bat` | Launcher menu script |
-| `create_shortcut.ps1` | Windows shortcut creator |
-| `README.md` | Full documentation |
-| `test_keep_awake.py` | Test suite |
-| `awake_icon.png` | Active tray icon |
-| `sleep_icon.png` | Inactive tray icon |
-| `generated-icon.png` | Default/fallback icon |
-
----
-
-## License
-
-MIT License – Use freely for personal or professional purposes. No warranties or guarantees.
-
+echo.
+echo ✅ Repo pushed to: %REMOTE_URL%
+echo ===========================================
+pause
