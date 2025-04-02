@@ -263,10 +263,11 @@ class KeepAwakeConsoleApp:
         print("2. Custom Activity Pattern")
         print("3. Schedule Start/Stop Times")
         print("4. Power Usage Analysis")
-        print("5. Back to main menu")
+        print("5. Custom Icon Settings")
+        print("6. Back to main menu")
         
         try:
-            choice = input("\nSelect an option (1-5): ")
+            choice = input("\nSelect an option (1-6): ")
             if choice == "1":
                 self.show_resource_monitor()
             elif choice == "2":
@@ -276,9 +277,11 @@ class KeepAwakeConsoleApp:
             elif choice == "4":
                 self.power_usage_analysis()
             elif choice == "5":
+                self.custom_icon_settings()
+            elif choice == "6":
                 return
             else:
-                print("Invalid option. Please choose a number between 1 and 5.")
+                print("Invalid option. Please choose a number between 1 and 6.")
         except Exception as e:
             print(f"Error in advanced features: {str(e)}")
     
@@ -371,6 +374,32 @@ class KeepAwakeConsoleApp:
         print("- Sleep settings for unused peripherals")
         print("- Background app power consumption analysis")
         
+        input("\nPress Enter to return to advanced features...")
+        
+    def custom_icon_settings(self):
+        """Configure custom tray icon settings"""
+        print("\nCustom Icon Settings:")
+        print("Configure the appearance of the application")
+        
+        print("\nIcon Type:")
+        print("1. Eye Icon (Default - shows open eye when active, closed when inactive)")
+        print("2. Coffee Cup Icon (filled when active, empty when inactive)")
+        print("3. Clock Icon (animated when active)")
+        print("4. Custom Icon (load your own images)")
+        
+        print("\nIcon Colors:")
+        print("1. Blue (Default)")
+        print("2. Green")
+        print("3. Red")
+        print("4. Yellow")
+        print("5. Custom Color (RGB values)")
+        
+        print("\nNotification Settings:")
+        print("1. Show notifications on status change")
+        print("2. Show countdown notifications")
+        print("3. Silent mode (no notifications)")
+        
+        print("\nThis would allow customization of the application's appearance in a real implementation.")
         input("\nPress Enter to return to advanced features...")
     
     def run_interactive(self):
