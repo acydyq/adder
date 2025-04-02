@@ -1,6 +1,7 @@
-import tkinter as tk
-from tkinter import ttk, messagebox
-import pyautogui
+# No GUI imports for compatibility with headless environments
+# import tkinter as tk
+# from tkinter import ttk, messagebox
+# import pyautogui
 import os
 import sys
 import threading

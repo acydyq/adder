@@ -13,14 +13,10 @@ author = "agent"
 
 [[workflows.workflow.tasks]]
 task = "workflow.run"
-args = "KeepAwakeUtility"
-
-[[workflows.workflow.tasks]]
-task = "workflow.run"
-args = "python_app"
+args = "ConsoleKeepAwake"
 
 [[workflows.workflow]]
-name = "KeepAwakeUtility"
+name = "ConsoleKeepAwake"
 author = "agent"
 
 [workflows.workflow.metadata]
@@ -31,21 +27,7 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "pip install pyautogui psutil pillow pystray && python main.py"
-
-[[workflows.workflow]]
-name = "python_app"
-author = "agent"
-
-[workflows.workflow.metadata]
-agentRequireRestartOnSave = false
-
-[[workflows.workflow.tasks]]
-task = "packager.installForAll"
-
-[[workflows.workflow.tasks]]
-task = "shell.exec"
-args = "python main.py"
+args = "python console_keep_awake.py"
 
 [deployment]
 run = ["sh", "-c", "pip install pyautogui psutil pillow pystray && python main.py"]
