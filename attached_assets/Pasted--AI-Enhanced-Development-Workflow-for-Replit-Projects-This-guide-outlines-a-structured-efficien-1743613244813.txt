@@ -1,0 +1,52 @@
+# AI-Enhanced Development Workflow for Replit Projects
+
+This guide outlines a structured, efficient workflow for developing coding projects on Replit, leveraging AI capabilities to accelerate development while maintaining high-quality standards.
+
+## 1. Project Definition & Planning
+
+### 1.1 Define Your Project Scope
+- **Project Type**: Clearly specify what you're building (web app, CLI tool, game, data analysis, etc.)
+- **Core Functionality**: List 3-5 essential features that define your minimum viable product
+- **Target Audience**: Identify who will use your project and what problems it solves
+- **Success Metrics**: Define how you'll measure if your project meets its goals
+
+### 1.2 Requirements Gathering
+- Create user stories in the format: "As a [user type], I want [action] so that [benefit]"
+- Prioritize features using MoSCoW method (Must have, Should have, Could have, Won't have)
+- Identify potential technical challenges and dependencies
+- Create a project roadmap with milestones
+
+## 2. Technology Stack Selection
+
+### 2.1 Choose Your Primary Language
+Based on your project type, select the most appropriate language:
+- **Web Applications**: JavaScript/TypeScript (React, Vue, Angular), Python (Flask, Django)
+- **Data Science**: Python (Pandas, NumPy, Scikit-learn, TensorFlow)
+- **Game Development**: Python (Pygame), JavaScript (Phaser)
+- **Automation**: Python, JavaScript, Bash
+- **Mobile**: JavaScript (React Native), Dart (Flutter)
+
+### 2.2 Framework Selection
+Select frameworks and libraries that best align with your project requirements:
+- **Frontend**: React, Vue, Angular, Svelte
+- **Backend**: Express.js, Flask, Django, FastAPI
+- **Database**: SQLite, MongoDB, PostgreSQL
+- **State Management**: Redux, Context API, Vuex
+- **Testing**: Jest, Pytest, Mocha
+
+### 2.3 Development Tools
+Identify tools that will enhance your development workflow:
+- **Version Control**: Git (built into Replit)
+- **Code Quality**: ESLint, Prettier, Black, Flake8
+- **Task Runners**: npm scripts, Python scripts
+- **Documentation**: JSDoc, Sphinx, Swagger
+
+## 3. Project Initialization & Setup
+
+### 3.1 Create Replit Project
+- Choose the appropriate template for your language/framework
+- Configure .replit file for custom run commands if needed
+- Set up environment variables in Replit Secrets for sensitive information
+
+### 3.2 Establish Project Structure
+Create a clean, organized structure:
