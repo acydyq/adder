@@ -1,9 +1,20 @@
 @echo off
 setlocal ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
 
+REM === CONFIGURATION ===
 set REPO_NAME=adder
 set GITHUB_USER=acydyq
 set REMOTE_URL=https://github.com/%GITHUB_USER%/%REPO_NAME%.git
+
+REM === Get timestamp for commit message ===
+for /f "tokens=1-2 delims= " %%a in ('wmic os get localdatetime ^| find "."') do (
+    set DATETIME=%%a
+)
+
+REM Format: YYYY-MM-DD HH:MM:SS
+set COMMIT_DATE=!DATETIME:~0,4!-!DATETIME:~4,2!-!DATETIME:~6,2!
+set COMMIT_TIME=!DATETIME:~8,2!:!DATETIME:~10,2!:!DATETIME:~12,2!
+set COMMIT_MSG=Auto commit - !COMMIT_DATE! !COMMIT_TIME!
 
 echo.
 echo ======= GITHUB PUSH SCRIPT =======
@@ -54,11 +65,12 @@ if errorlevel 1 (
 
 REM -- Commit and push
 git add .
-set /p COMMIT_MSG="Enter commit message: "
-if "%COMMIT_MSG%"=="" set COMMIT_MSG=Auto commit
 git commit -m "%COMMIT_MSG%"
 git push -u origin main
 
+echo.
+echo Committed with message:
+echo     %COMMIT_MSG%
 echo.
 echo ======= DONE =======
 pause
