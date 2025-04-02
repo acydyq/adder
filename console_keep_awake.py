@@ -442,8 +442,75 @@ class KeepAwakeConsoleApp:
         
         print("Exiting Keep Awake Utility. Goodbye!")
 
+def print_help():
+    """Print help information about command-line usage"""
+    print("\nKeep Awake Utility - Command Line Usage")
+    print("=======================================")
+    print("Options:")
+    print("  --help, -h               Show this help message")
+    print("  --auto-start, -a         Automatically start the utility")
+    print("  --max-timer, -m          Use maximum timer (10 hours)")
+    print("  --timer=HOURS            Set specific timer hours (1, 2, 5, or 10)")
+    print("  --non-interactive        Run in non-interactive mode (good for services)")
+    print("\nExamples:")
+    print("  python console_keep_awake.py")
+    print("  python console_keep_awake.py --auto-start --max-timer")
+    print("  python console_keep_awake.py --timer=2")
+    print("\nWhen running in interactive mode, you'll be prompted for commands.")
+    print("Use 'exit' to quit the application.\n")
+    sys.exit(0)
+
 def main():
+    # Check for help flag first
+    if len(sys.argv) > 1 and any(arg in ["--help", "-h", "/?"] for arg in sys.argv):
+        print_help()
+        
     app = KeepAwakeConsoleApp()
+    
+    # Check for command line arguments
+    if len(sys.argv) > 1:
+        auto_start = any(arg in ["--auto-start", "-a"] for arg in sys.argv)
+        max_timer = any(arg in ["--max-timer", "-m"] for arg in sys.argv)
+        non_interactive = any(arg in ["--non-interactive"] for arg in sys.argv)
+        
+        # Check for timer parameter
+        timer_hours = 0
+        for arg in sys.argv:
+            if arg.startswith("--timer="):
+                try:
+                    timer_hours = int(arg.split("=")[1])
+                    if timer_hours in [1, 2, 5, 10]:
+                        # Find the corresponding timer option
+                        timer_index = [1, 2, 3, 4][([1, 2, 5, 10].index(timer_hours))]
+                        app.current_timer = app.timer_options[timer_index]
+                    else:
+                        print(f"Warning: Invalid timer value: {timer_hours}. Using default.")
+                except ValueError:
+                    print(f"Warning: Invalid timer parameter: {arg}")
+        
+        # If max-timer flag is present, override any --timer setting
+        if max_timer:
+            # Select maximum timer (10 hours)
+            app.current_timer = app.timer_options[4]  # "10 hours"
+        
+        # Start the keep awake functionality if auto-start is specified
+        if auto_start:
+            app.start_keep_awake()
+            print(f"\nAuto-started with timer: {app.current_timer}")
+        
+        # If non-interactive mode is specified, just keep the main thread alive
+        if non_interactive:
+            print("Running in non-interactive mode. Press Ctrl+C to exit.")
+            try:
+                while True:
+                    time.sleep(1)
+            except KeyboardInterrupt:
+                print("\nReceived interrupt signal.")
+                app.stop_keep_awake()
+                print("Exiting Keep Awake Utility. Goodbye!")
+                return
+    
+    # Run the interactive console interface
     app.run_interactive()
 
 if __name__ == "__main__":

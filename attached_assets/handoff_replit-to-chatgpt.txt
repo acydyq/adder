@@ -1,0 +1,150 @@
+# Detailed Development Overview: Keep Awake Utility
+
+## Project Description
+You are continuing development on a Windows utility designed to prevent PCs from sleeping by simulating user activity. This application was specifically designed for use with cloud-based PCs (like shadow.tech) to prevent automatic sleep during long processes. The application includes both GUI and console-based implementations, with automatic shutdown capabilities when the timer expires.
+
+## Repository Contents
+- `main.py` - GUI version using tkinter with system tray integration
+- `console_keep_awake.py` - Console-based version for headless environments
+- `start_keep_awake.bat` - Windows batch file for setup and auto-launch
+- `run_with_max_timer.py` - Helper script for setting maximum timer
+- `create_shortcut.ps1` - PowerShell script for creating shortcuts
+- `test_keep_awake.py` - Comprehensive testing suite
+- `awake_icon.svg` & `sleep_icon.svg` - System tray icons
+- `README.md` - Documentation
+
+## Current Feature Set
+1. **Dual Implementation**:
+   - GUI version with tkinter (Windows environments)
+   - Console version (works in headless environments)
+
+2. **Core Functionality**:
+   - Prevent sleep by simulating mouse movement or key presses
+   - Configurable activity simulation patterns
+   - Countdown timer with auto-shutdown (1hr, 2hr, 5hr, or 10hr options)
+   - System resource monitoring (CPU, memory, disk usage)
+   - Power usage analysis
+
+3. **GUI Features**:
+   - System tray integration with custom icons
+   - Minimize to tray functionality
+   - Visual timer countdown
+   - Status indicators
+
+4. **Console Features**:
+   - Interactive command mode
+   - Non-interactive mode (for services/scheduled tasks)
+   - Command-line arguments for automation
+
+5. **Deployment**:
+   - Batch file with dependency checking
+   - PowerShell shortcut creator
+   - Auto-start with configurable timer
+
+## Development Process & Decisions
+
+### 1. Dual Implementation Approach
+**Decision**: Created both GUI and console versions instead of just one approach.
+**Rationale**: This maximizes compatibility across different environments. The GUI provides a user-friendly experience for standard Windows users, while the console version supports headless environments and automation scenarios.
+**Implementation**: Used conditional imports and a mock system for tkinter to allow the code to run in environments without display capabilities.
+
+### 2. Error Handling & Dependency Management
+**Decision**: Implemented robust error handling for missing dependencies.
+**Rationale**: Users might run the application in environments without all required libraries.
+**Implementation**: Created a TkMock class to handle missing tkinter, conditional imports for PyAutoGUI and pystray, and clear error messages. Added dependency checks in the batch file with automatic installation.
+
+### 3. Non-Interactive Mode
+**Decision**: Added a non-interactive mode for the console version.
+**Rationale**: Allows the utility to be used as a system service or scheduled task without user interaction.
+**Implementation**: Added `--non-interactive` flag that runs the application without prompting for user input, combined with auto-start functionality.
+
+### 4. Command-Line Interface Design
+**Decision**: Implemented comprehensive command-line arguments with proper help.
+**Rationale**: Makes the application more usable in automated scenarios and easier for new users to understand.
+**Implementation**: Added `--help`/`-h` flags, timer configuration options (`--timer=X`, `--max-timer`), and auto-start flags (`--auto-start`).
+
+### 5. Testing Strategy
+**Decision**: Created comprehensive test suite.
+**Rationale**: Ensures reliability across different environments and prevents regressions.
+**Implementation**: Test cases for dependency checking, application initialization, command-line arguments, batch file verification, and non-interactive mode.
+
+### 6. System Tray Integration
+**Decision**: Added system tray functionality to GUI version.
+**Rationale**: Allows the application to run in the background without cluttering the taskbar.
+**Implementation**: Used pystray library with custom SVG icons, context menus, and state transitions.
+
+### 7. Batch File Automation
+**Decision**: Created a comprehensive batch file for Windows users.
+**Rationale**: Simplifies setup, especially for non-technical users.
+**Implementation**: Added dependency checks, automatic installation, help functionality, and auto-start with maximum timer.
+
+### 8. PowerShell Shortcut Creation
+**Decision**: Added PowerShell script for creating desktop shortcuts.
+**Rationale**: Improves user experience by providing easy desktop access.
+**Implementation**: Created a script that generates a proper Windows .lnk file with custom icon.
+
+### Challenges & Solutions
+
+#### Challenge 1: Cross-Platform Compatibility
+**Problem**: Different environments might not have GUI capabilities.
+**Solution**: Dual implementation approach with graceful fallbacks and mocks for missing components.
+
+#### Challenge 2: Tkinter LSP Issues
+**Problem**: Many LSP errors in main.py due to conditional imports and mocking.
+**Solution**: Maintained the code structure for runtime compatibility while accepting LSP warnings as a necessary trade-off for the flexibility gained.
+
+#### Challenge 3: Testing Non-Interactive Mode
+**Problem**: Difficult to test a mode designed to run without user interaction.
+**Solution**: Created specialized tests that start the application in non-interactive mode, verify it's running correctly, and then terminate it programmatically.
+
+#### Challenge 4: Resource Monitoring
+**Problem**: Needed to collect system resource information without affecting performance.
+**Solution**: Used psutil library with efficient polling and on-demand updates rather than continuous monitoring.
+
+## Next Development Steps (Incomplete Features)
+
+1. **Enhanced Logging System**:
+   - Need to implement a proper logging system for debugging and monitoring
+   - Consider creating log rotation to prevent large log files
+
+2. **Advanced Power Management**:
+   - Improve power usage analysis with battery status tracking
+   - Add power profiles (balanced, performance, quiet)
+
+3. **Custom Activity Patterns**:
+   - Enhance the activity simulation with more natural patterns
+   - Add machine learning to mimic the user's typical activity patterns
+
+4. **Multi-Monitor Support**:
+   - Improve handling of multiple monitors
+   - Add per-monitor activity configuration
+
+5. **Settings Persistence**:
+   - Save user preferences between sessions
+   - Add profile support for different use cases
+
+## Technical Details
+
+### Dependencies:
+- Python 3.6+
+- psutil (system monitoring)
+- PyAutoGUI (simulating user activity)
+- pillow (image handling for icons)
+- pystray (system tray functionality)
+
+### Implementation Notes:
+1. Activity simulation is done through separate threads to prevent UI blocking
+2. The shutdown timer runs in its own thread with proper synchronization
+3. Resource monitoring is implemented with efficient polling
+4. GUI and console versions share core logic but have separate UIs
+5. Non-interactive mode bypasses command prompt and runs silently
+6. Exception handling is comprehensive with user-friendly error messages
+
+### Design Principles:
+1. User-friendly with minimal configuration required
+2. Graceful degradation in limited environments
+3. Comprehensive testing for all components
+4. Clean separation between core logic and UI
+5. Robust error handling and dependency management
+
+Continue development following these established patterns and principles, maintaining both the GUI and console versions in parallel.

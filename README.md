@@ -1,64 +1,130 @@
 # Keep Awake Utility
 
-A utility that keeps your Windows PC awake by simulating mouse movements and keyboard activity, with an optional automatic shutdown timer.
+A Python-based utility to prevent your PC from sleeping or locking by simulating activity. Offers both a GUI interface with system tray support and a cross-platform command-line version.
+
+---
 
 ## Features
 
-- **Activity Simulation**: Prevents your PC from sleeping by simulating mouse movements and keyboard presses at regular intervals
-- **Shutdown Timer**: Set a timer (1, 2, 5, or 10 hours) after which your PC will automatically shut down
-- **System Resource Monitor**: View real-time CPU, memory, disk, and battery usage information
-- **Custom Activity Patterns**: Configure how the utility simulates activity (mouse, keyboard, or both)
-- **Command-line Interface**: Easy-to-use console interface for controlling the application
+- Simulates mouse and keyboard activity to prevent sleep
+- Auto-shutdown timer (1, 2, 5, or 10 hours)
+- System tray integration (GUI mode)
+- Tray icon switches dynamically (awake/sleep)
+- Real-time tooltip shows timer countdown and status
+- Command-line interface with automation support
+- Launcher batch file and shortcut generator script
+- Cross-platform console version (Windows/Linux/macOS)
+- Auto-start CLI and max timer modes
+- Full test suite to validate behavior
 
-## Installation
+---
 
-1. Ensure you have Python 3.6+ installed on your system
-2. Install required dependencies:
-   ```
-   pip install psutil pillow
-   ```
-3. In a Windows environment with a GUI, also install:
-   ```
-   pip install pyautogui pystray
-   ```
+## Requirements
+
+- Python 3.6+
+- `pyautogui`, `psutil`, `pillow`, `pystray`
+- Windows recommended for full GUI support
+
+Install dependencies:
+```bash
+pip install pyautogui psutil pillow pystray
+```
+
+---
 
 ## Usage
 
-### Console Version (Works in all environments)
-
-Run the console-based version of the application:
-
-```
-python console_keep_awake.py
+### GUI Version
+```bash
+python main.py --auto-start --timer=2
 ```
 
-Follow the on-screen instructions to control the application:
-- `start` - Start keeping your PC awake
-- `stop` - Stop the utility
-- `timer` - Set a shutdown timer
-- `status` - Check the current status
-- `advanced` - Access advanced features
-- `exit` - Exit the application
-
-### GUI Version (Windows only)
-
-In a Windows environment, you can also run the GUI version which includes system tray functionality:
-
-```
-python main.py
+### Console Version
+```bash
+python console_keep_awake.py --auto-start --timer=5 --non-interactive
 ```
 
-## Why Use This Utility
+### Help Flags
+- `--help` or `-h`: Show usage info
+- `--auto-start`: Begin simulating activity immediately
+- `--timer=N`: Shutdown in N hours
+- `--max-timer`: Use 10-hour timer
+- `--non-interactive`: Skip CLI prompt
 
-- Prevent your PC from going to sleep during long downloads, file transfers, or simulations
-- Automatically shut down your PC after a set time to save power
-- Monitor system resources while running long-term processes
-- Customize the way your PC stays awake to match your needs
+---
 
-## Development Status
+## System Tray Behavior (GUI)
 
-This utility is provided as-is for testing purposes. The console version can be run in any environment, while the GUI version requires a Windows environment with display and input capabilities.
+The GUI runs silently in the background:
+
+- `awake_icon.png`: tray icon when active
+- `sleep_icon.png`: tray icon when inactive
+- `generated-icon.png`: fallback if others are missing
+- Tooltip displays current status and remaining time
+- Icons update every 5 seconds
+
+---
+
+## Batch Launcher
+
+Run:
+```bat
+start_keep_awake.bat
+```
+
+Choose from:
+1. GUI Version
+2. Console Version
+3. Background Mode
+4. Exit
+
+---
+
+## Shortcut Creation (Windows)
+
+Create a `.lnk` with tray icon:
+```powershell
+powershell -ExecutionPolicy Bypass -File create_shortcut.ps1
+```
+
+Creates:
+- `KeepAwake.exe.lnk`
+- Uses `awake_icon.png` or `generated-icon.png`
+
+---
+
+## Testing
+
+Run:
+```bash
+python test_keep_awake.py
+```
+
+Verifies:
+- Icons and scripts exist
+- Console and GUI launch correctly
+- CLI flags function properly
+- PowerShell and batch files execute
+
+---
+
+## Files Overview
+
+| File | Description |
+|------|-------------|
+| `main.py` | GUI mode with system tray |
+| `console_keep_awake.py` | Terminal-based control |
+| `start_keep_awake.bat` | Launcher menu script |
+| `create_shortcut.ps1` | Windows shortcut creator |
+| `README.md` | Full documentation |
+| `test_keep_awake.py` | Test suite |
+| `awake_icon.png` | Active tray icon |
+| `sleep_icon.png` | Inactive tray icon |
+| `generated-icon.png` | Default/fallback icon |
+
+---
 
 ## License
 
-This project is for educational and testing purposes only.
+MIT License – Use freely for personal or professional purposes. No warranties or guarantees.
+
