@@ -26,6 +26,7 @@ IF NOT EXIST ".git" (
     echo # %REPO_NAME% > README.md
     git add .
     git commit -m "Initial commit for %REPO_NAME% project"
+    git branch -M main
     git remote add origin %REMOTE_URL%
 ) ELSE (
     echo Git repository already initialized.
@@ -44,7 +45,7 @@ IF "%COMMIT_MSG%"=="" set COMMIT_MSG=Auto commit
 
 git add .
 git commit -m "%COMMIT_MSG%"
-git push -u origin master
+git push -u origin main
 
 echo --------------------------------------------
 echo Push to GitHub completed!
