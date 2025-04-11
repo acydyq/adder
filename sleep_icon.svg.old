@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Closed Eye -->
+  <path d="M7,32 Q32,48 57,32 Q32,16 7,32" fill="none" stroke="#333" stroke-width="3"/>
+  <!-- Z's to indicate sleeping -->
+  <text x="40" y="15" font-family="Arial" font-size="16" font-weight="bold" fill="#333">Z</text>
+  <text x="47" y="24" font-family="Arial" font-size="20" font-weight="bold" fill="#333">Z</text>
+  <text x="54" y="34" font-family="Arial" font-size="24" font-weight="bold" fill="#333">Z</text>
+</svg>

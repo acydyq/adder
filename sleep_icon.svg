@@ -1,8 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
-  <!-- Closed Eye -->
-  <path d="M7,32 Q32,48 57,32 Q32,16 7,32" fill="none" stroke="#333" stroke-width="3"/>
-  <!-- Z's to indicate sleeping -->
-  <text x="40" y="15" font-family="Arial" font-size="16" font-weight="bold" fill="#333">Z</text>
-  <text x="47" y="24" font-family="Arial" font-size="20" font-weight="bold" fill="#333">Z</text>
-  <text x="54" y="34" font-family="Arial" font-size="24" font-weight="bold" fill="#333">Z</text>
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+ "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="1024.000000pt" height="1536.000000pt" viewBox="0 0 1024.000000 1536.000000"
+ preserveAspectRatio="xMidYMid meet">
+
+<g transform="translate(0.000000,1536.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M0 7680 l0 -7680 5120 0 5120 0 0 7680 0 7680 -5120 0 -5120 0 0
+-7680z m4955 2150 c3 -5 1 -10 -4 -10 -6 0 -11 5 -11 10 0 6 2 10 4 10 3 0 8
+-4 11 -10z m-475 -1030 c0 -5 -2 -10 -4 -10 -3 0 -8 5 -11 10 -3 6 -1 10 4 10
+6 0 11 -4 11 -10z m367 -266 c-3 -3 -12 -4 -19 -1 -8 3 -5 6 6 6 11 1 17 -2
+13 -5z m-52 -32 c-3 -3 -11 0 -18 7 -9 10 -8 11 6 5 10 -3 15 -9 12 -12z
+m-271 -1754 c-4 -6 -10 -5 -15 3 -14 22 -10 33 6 19 8 -7 12 -17 9 -22z m-587
+-2744 c-3 -3 -12 -4 -19 -1 -8 3 -5 6 6 6 11 1 17 -2 13 -5z"/>
+</g>
 </svg>
